@@ -5,6 +5,7 @@
 
 # [another files]
 # environment variable and memo and config file
+.gitignore
 .env
 .txt
 discloud.config
