@@ -1,0 +1,10 @@
+# [dirs]
+# node module and imgs for bot
+/node_modules
+/saved_imgs
+
+# [another files]
+# environment variable and memo and config file
+.env
+.txt
+discloud.config
