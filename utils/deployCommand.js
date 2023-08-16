@@ -14,7 +14,6 @@ export function deploySlashCommands (client, commands) {
 				Routes.applicationCommands(process.env.APPLICATION_ID),
 				{ body: commands }
 			);
-
 			client.data = data;
 	
 			console.log(`Successfully reloaded ${data.length} application (/) commands.`);

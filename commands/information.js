@@ -3,6 +3,7 @@ import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, But
 export const data = new SlashCommandBuilder()
 	.setName('정보')
 	.setDescription('봇의 설명과 지연 시간 등의 정보를 전송해요');
+	
 export async function execute(interaction) {
 	await interaction.deferReply();
 
@@ -53,7 +54,7 @@ export async function execute(interaction) {
 
 	const row = new ActionRowBuilder()
 		.addComponents(inviteBtn)
-		.addComponents(githubBtn)
+		.addComponents(githubBtn);
 
 	await interaction.editReply({ embeds: [infoEmbed], components: [row] });
 }

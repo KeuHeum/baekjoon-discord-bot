@@ -34,7 +34,7 @@ for (const file of commandFiles) {
 
     if ('data' in command && 'execute' in command) {
         client.commands.set(command.data.name, command);
-        commands.push(command.data.toJSON())
+        commands.push(command.data.toJSON());
     } else {
         console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
     }
@@ -55,7 +55,7 @@ client.once('ready', async () => {
     setInterval(() => {
         client.user.setActivity(preMsgs[indexNum]);
         indexNum = (indexNum+1) % preMsgs.length;
-    }, 5000)
+    }, 5000);
 })
 
 // client.on('guildCreate', async (guild) => {
@@ -134,4 +134,4 @@ client.on('interactionCreate', async interaction => {
 })
 
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN);

@@ -75,7 +75,7 @@ const colors = [
     '27e2a4',//Platinum
     '00b4fc',//Diamond
     'ff0062',//Ruby
-]
+];
 
 const emojis = [
     "<:unrated:1140676109135003779>",

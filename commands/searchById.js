@@ -1,5 +1,5 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import fetch from 'node-fetch';
+import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
 import { get_level, get_icon, get_color } from '../utils/level.js';
 
 export const data = new SlashCommandBuilder()
@@ -30,30 +30,29 @@ export async function execute(interaction) {
 	} else if (data['count'] == 1) {
 		const item = data['items'][0];
 
-		// make tag lists
-		let tags = '';
-		for (const tag of item['tags']) {
-			tags += ` \`${tag['displayNames'][0]['name']}\``;
-		}
-
 		const problemEmbed = new EmbedBuilder()
-			.setAuthor({
-				name: item['titleKo'],//`${item['titleKo']} (${item['problemId']})`,
-				// iconURL: get_icon(item['level']),
-				url: `https://www.acmicpc.net/problem/${item['problemId']}`
-			})
+			.setTitle(item['titleKo'])
 			.setColor(`#${get_color(item['level'])}`)
-			.setTitle('문제 링크')
-			.setURL(`https://www.acmicpc.net/problem/${item['problemId']}`)
 			.setThumbnail(get_icon(item['level']))
 			.setFields(
 				{ name: '번호', value: `${item['problemId']}`, inline: false },
 				{ name: '난이도', value: get_level(item['level']), inline: false }
 			);
-		if (tags != '') {
-			problemEmbed.addFields({ name: '유형', value: tags, inline: false })
-		}
-		let msg = await interaction.editReply({ embeds: [ problemEmbed ] });
+
+		// make tag lists
+		let tags = '';
+		for (const tag of item['tags']) { tags += ` \`${tag['displayNames'][0]['name']}\``; }
+		if (tags != '') { problemEmbed.addFields({ name: '유형', value: tags, inline: false }) }
+
+		//button of problem link
+		const problemBtn = new ButtonBuilder()
+			.setLabel('문제 링크')
+			// .setEmoji()
+			.setURL(`https://www.acmicpc.net/problem/${item['problemId']}`)
+			.setStyle(ButtonStyle.Link);
+		const row = new ActionRowBuilder().addComponents(problemBtn);
+
+		let msg = await interaction.editReply({ embeds: [ problemEmbed ], components: [row] });
 
 		// Make thread If option is true
 		let threadOpt = interaction.options.get('스레드')

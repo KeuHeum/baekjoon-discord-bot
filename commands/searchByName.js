@@ -1,5 +1,5 @@
-import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
 import fetch from 'node-fetch';
+import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
 import { get_emoji } from '../utils/level.js';
 
 export const data = new SlashCommandBuilder()
@@ -35,17 +35,14 @@ export async function execute(interaction) {
 			let item = data['items'][i];
 
 			let tags = '';
-			for (const tag of item['tags']) {
-				tags += ` \`${tag['displayNames'][0]['name']}\``;
-			}
+			for (const tag of item['tags']) { tags += ` \`${tag['displayNames'][0]['name']}\``; }
 			if (tags == '') { tags=' `(유형 없음)`' }
 
-			searchEmbed.addFields(
-				{ 
-					name: `${get_emoji(item['level'])} \`${item['problemId']}\` | ${item['titleKo']}`, 
-					value: `- ${tags}`,
-					inline: false
-				});
+			searchEmbed.addFields({ 
+				name: `${get_emoji(item['level'])} \`${item['problemId']}\` | ${item['titleKo']}`, 
+				value: `- ${tags}`,
+				inline: false
+			});
 		}
 
 		// Make components
