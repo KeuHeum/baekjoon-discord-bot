@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, resolveColor } from 'discord.js';
 import { get_level, get_icon, get_color } from '../utils/level.js';
 
 export const data = new SlashCommandBuilder()
@@ -19,16 +19,23 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
 	await interaction.deferReply();
 
-	const response = await fetch('https://solved.ac/api/v3/search/problem?query='+interaction.options.get('id')['value']+'&sort=id');
-	const data = await response.json();
+	const response = await fetch('https://solved.ac/api/v3/problem/show?problemId='+interaction.options.get('id')['value']);
 
-	if (data['count'] == 0) {
+	if (response.status == 400) {
+		const searchEmbed = new EmbedBuilder()
+			.setDescription(`:exploding_head: **'${interaction.options.get('id')['value']}번 문제'의 아이디가 잘못되었어요**`)
+			.setFooter({ text: '정확한 id를 입력해주세요' })
+			.setColor('#0468BF');
+		await interaction.editReply({ embeds: [searchEmbed] });
+
+	} else if (response.status == 404) {
 		const searchEmbed = new EmbedBuilder()
 			.setDescription(`:confounded: **'${interaction.options.get('id')['value']}번 문제'에 대한 검색 결과가 없어요**`)
 			.setColor('#0468BF');
-		await interaction.editReply({ embeds: [searchEmbed] });
-	} else if (data['count'] == 1) {
-		const item = data['items'][0];
+			await interaction.editReply({ embeds: [searchEmbed] });
+			
+	} else if (response.status == 200) {
+		const item = await response.json();
 
 		const problemEmbed = new EmbedBuilder()
 			.setTitle(item['titleKo'])
@@ -47,7 +54,6 @@ export async function execute(interaction) {
 		//button of problem link
 		const problemBtn = new ButtonBuilder()
 			.setLabel('문제 링크')
-			// .setEmoji()
 			.setURL(`https://www.acmicpc.net/problem/${item['problemId']}`)
 			.setStyle(ButtonStyle.Link);
 		const row = new ActionRowBuilder().addComponents(problemBtn);
@@ -62,11 +68,5 @@ export async function execute(interaction) {
 				type: 'GUILD_PUBLIC_THREAD'
 			});
 		}
-	} else {
-		const searchEmbed = new EmbedBuilder()
-			.setDescription(`:exploding_head: **'${interaction.options.get('id')['value']}번 문제'에 대한 검색 결과가 1개 이상이에요**`)
-			.setFooter({ text: '정확한 id를 입력해주세요' })
-			.setColor('#0468BF');
-		await interaction.editReply({ embeds: [searchEmbed] });
 	}
 }
