@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
 import { readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { Client, GatewayIntentBits, Collection, PermissionFlagsBits, ActivityType } from 'discord.js';
+import { Client, Events, GatewayIntentBits, Collection, PermissionFlagsBits, ActivityType } from 'discord.js';
 import jsonObj from './package.json' assert { type: 'json' };
 import { deploySlashCommands } from './utils/deployCommand.js';
+import { logging } from './utils/loggingCh.js';
 
 // basic declare
 dotenv.config();
@@ -45,6 +46,7 @@ deploySlashCommands(client, commands);
 // Events start
 client.once('ready', async () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    logging(client, 'Bot Started', `**Version**: ${version}`);
 
     //activity loop
     let indexNum = 0;
