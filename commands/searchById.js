@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, resolveColor } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
 import { get_level, get_icon, get_color } from '../utils/level.js';
 
 export const data = new SlashCommandBuilder()
@@ -32,7 +32,7 @@ export async function execute(interaction) {
 		const searchEmbed = new EmbedBuilder()
 			.setDescription(`:confounded: **'${interaction.options.get('id')['value']}번 문제'에 대한 검색 결과가 없어요**`)
 			.setColor('#0468BF');
-			await interaction.editReply({ embeds: [searchEmbed] });
+		await interaction.editReply({ embeds: [searchEmbed] });
 			
 	} else if (response.status == 200) {
 		const item = await response.json();
@@ -46,12 +46,12 @@ export async function execute(interaction) {
 				{ name: '난이도', value: get_level(item['level']), inline: false }
 			);
 
-		// make tag lists
+		// add tags
 		let tags = '';
 		for (const tag of item['tags']) { tags += ` \`${tag['displayNames'][0]['name']}\``; }
 		if (tags != '') { problemEmbed.addFields({ name: '유형', value: tags, inline: false }) }
 
-		//button of problem link
+		// Problem link btn
 		const problemBtn = new ButtonBuilder()
 			.setLabel('문제 링크')
 			.setURL(`https://www.acmicpc.net/problem/${item['problemId']}`)

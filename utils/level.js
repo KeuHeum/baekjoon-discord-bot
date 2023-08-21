@@ -124,11 +124,11 @@ export function get_emoji(level) {
 }
 
 export function get_color(level) {
-    if (level == 0){ return colors[0] }
-    else if (level >= 1 && level <= 5) { return colors[1] }
-    else if (level >= 6 && level <= 10) { return colors[2] }
-    else if (level >= 11 && level <= 15) { return colors[3] }
-    else if (level >= 15 && level <= 20) { return colors[4] }
-    else if (level >= 20 && level <= 25) { return colors[5] }
-    else if (level >= 25 && level <= 30) { return colors[6] }
+    if (level == 0){ return colors[0]; }
+    else if (level >= 1 && level <= 5) { return colors[1]; }
+    else if (level >= 6 && level <= 10) { return colors[2]; }
+    else if (level >= 11 && level <= 15) { return colors[3]; }
+    else if (level >= 15 && level <= 20) { return colors[4]; }
+    else if (level >= 20 && level <= 25) { return colors[5]; }
+    else if (level >= 25 && level <= 30) { return colors[6]; }
 }

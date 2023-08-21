@@ -3,7 +3,7 @@ import { readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import {
     Client, Collection,
-    GatewayIntentBits, PermissionFlagsBits, ActivityType, ButtonStyle,
+    GatewayIntentBits, PermissionFlagsBits, ButtonStyle,
     EmbedBuilder, ButtonBuilder, ActionRowBuilder
 } from 'discord.js';
 import jsonObj from './package.json' assert { type: 'json' };
@@ -85,15 +85,13 @@ client.on('guildCreate', async (guild) => {
 
     const helloEmbed = new EmbedBuilder()
         .setTitle('👋 반가워요!')
-        .setDescription('서버에 초대해주셔서 감사해요.\n현재 사용하고 계신 봇은 **비공식 백준 학습 도우미**봇입니다.')
-        .addFields({ name: '💻 명령어', value: 
-`</정보:${client.data.filter((value) => value.name == '정보')[0].id}>
-` });
+        .setDescription('서버에 초대해주셔서 감사해요.\n저는 **비공식 백준 학습 도우미**봇입니다. ✏️')
+        .setColor('#0468BF')
+        .addFields({ name: '💻 명령어', value: `</정보:${client.data.filter((value) => value.name == '정보')[0].id}>`});
 
 	const githubBtn = new ButtonBuilder()
 		.setLabel('깃허브')
 		.setEmoji('<:github:1140869819730755714>')
-		.setDisabled(true)
 		.setURL('https://github.com/KeuHeum/baekjoon-discord-bot')
 		.setStyle(ButtonStyle.Link);
 
