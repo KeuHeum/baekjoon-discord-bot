@@ -3,7 +3,7 @@ import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRo
 import { get_emoji } from '../utils/level.js';
 
 export const data = new SlashCommandBuilder()
-	.setName('검색하기')
+	.setName('문제-검색')
 	.setDescription('문제를 검색한 결과를 찾아요')
 	.addStringOption(option => option
 		.setName('검색어')
