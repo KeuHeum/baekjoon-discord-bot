@@ -1,7 +1,11 @@
 import dotenv from "dotenv";
 import { readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { Client, Events, GatewayIntentBits, Collection, PermissionFlagsBits, ActivityType } from 'discord.js';
+import {
+    Client, Collection,
+    GatewayIntentBits, PermissionFlagsBits, ActivityType, ButtonStyle,
+    EmbedBuilder, ButtonBuilder, ActionRowBuilder
+} from 'discord.js';
 import jsonObj from './package.json' assert { type: 'json' };
 import { deploySlashCommands } from './utils/deployCommand.js';
 import { logging } from './utils/loggingCh.js';
@@ -58,60 +62,45 @@ client.once('ready', async () => {
         client.user.setActivity(preMsgs[indexNum]);
         indexNum = (indexNum+1) % preMsgs.length;
     }, 5000);
-})
+});
 
-// client.on('guildCreate', async (guild) => {
-//     let member = guild.members.cache.get(client.user.id);
-//     const keywords = ['공지', 'noti', '채팅', '일반', '광장', 'chat', 'general', '봇', 'bot'];
+client.on('guildCreate', async (guild) => {
+    let member = guild.members.cache.get(client.user.id);
+    const keywords = ['공지', 'noti', '채팅', '일반', '광장', 'chat', 'general', '봇', 'bot'];
 
-//     function findNoticeChannel(channel) {
-//         if (channel.type == 0
-//             && channel.permissionFor(member).has(PermissionFlagsBits.SendMessages)) {
-//             for (let i=0;i<keywords.length;i++) {
-//                 if (channel.name.includes(keywords[i])){
-//                     return true;
-//                 }
-//             }
-//         }
-//         return false;
-//     }
+    let noticeChannel;
+    forChannels: for (let channel of guild.channels.cache) {
+        if (channel[1].type == 0) {
+            if (channel[1].permissionsFor(member).has(PermissionFlagsBits.SendMessages)) {
+                if (!noticeChannel) { noticeChannel = channel[1] }
+                for (let i=0;i<keywords.length;i++) {
+                    if (channel[1].name.includes(keywords[i])){
+                        noticeChannel = channel[1];
+                        break forChannels;
+                    }
+                }
+            }
+        }
+    }
 
-//     console.log('ee')
-//     console.log(guild.channels.cache.find(findNoticeChannel))
-//     await guild.channels.cache.find(findNoticeChannel).send('ㅎㅇ')
+    const helloEmbed = new EmbedBuilder()
+        .setTitle('👋 반가워요!')
+        .setDescription('서버에 초대해주셔서 감사해요.\n현재 사용하고 계신 봇은 **비공식 백준 학습 도우미**봇입니다.')
+        .addFields({ name: '💻 명령어', value: 
+`</정보:${client.data.filter((value) => value.name == '정보')[0].id}>
+` });
 
-//     // guild.channels.cache.forEach((channel) => {
-//     //     if (channel.type == 0) {
-//     //         console.log(channel.name);
-//     //         if (channel.name.includes('테스트')) {
-//     //             console.log("찾음");
-//     //             return false;
-//     //         }
-//     //     }
-//     // });
+	const githubBtn = new ButtonBuilder()
+		.setLabel('깃허브')
+		.setEmoji('<:github:1140869819730755714>')
+		.setDisabled(true)
+		.setURL('https://github.com/KeuHeum/baekjoon-discord-bot')
+		.setStyle(ButtonStyle.Link);
 
-//     // console.log(guild.channels.cache.keys)
-//     // for (const channel in guild.channels.cache.keys) {
-//     //     console.log(channel)
-//     //     if (channel.type == 0) {
-//     //         console.log(channel.name)
+	const row = new ActionRowBuilder().addComponents(githubBtn);
 
-//     //         if (channel.name.includes('테스트')) {
-//     //             console.log("찾음");
-//     //             break;
-//     //         }
-//     //     }
-
-//         // if (channel.permissionFor(member).has('SEND_MESSAGE')) {
-//         //     for (const keyword in keywords) {
-//         //         if ((channel.name).includes(keyword)) {
-//         //             console.log('ee')
-//         //             await channel.send('ㅎㅇ')
-//         //         }
-//         //     }
-//         // }
-//     // }
-// })
+    await noticeChannel.send({ embeds: [helloEmbed], components: [row] });
+});
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
@@ -133,7 +122,7 @@ client.on('interactionCreate', async interaction => {
             await interaction.reply({ content: '명령어를 실행하는 동안 오류가 발생했어요', ephemeral: true });
         }
     }
-})
+});
 
 
 client.login(process.env.TOKEN);
