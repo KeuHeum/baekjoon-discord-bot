@@ -83,11 +83,15 @@ client.on('guildCreate', async (guild) => {
         }
     }
 
+    let commandsMention = '';
+    for (let command of client.data) { commandsMention += `</${command.name}:${command.id}> ` }
+    
     const helloEmbed = new EmbedBuilder()
         .setTitle('👋 반가워요!')
         .setDescription('서버에 초대해주셔서 감사해요.\n저는 **비공식 백준 학습 도우미**봇입니다. ✏️')
+        .setThumbnail('https://i.pinimg.com/originals/75/62/6c/75626cca09ae5242b97c8713f2c6326a.png')
         .setColor('#0468BF')
-        .addFields({ name: '💻 명령어', value: `</정보:${client.data.filter((value) => value.name == '정보')[0].id}>`});
+        .addFields({ name: '💻 명령어', value: commandsMention });
 
 	const githubBtn = new ButtonBuilder()
 		.setLabel('깃허브')
