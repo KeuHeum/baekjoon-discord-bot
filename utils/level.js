@@ -30,6 +30,7 @@ const levels = [
     "Ruby III",
     "Ruby II",
     "Ruby I",
+    "Master"
 ];
 
 const icons = [
@@ -67,14 +68,15 @@ const icons = [
 ];
 
 const colors = [
-    '464646',
-    // '2d2d2d',//Unrated
-    'ad5600',//Bronze
-    '435f7a',//Silver
-    'ec9a00',//Gold
-    '27e2a4',//Platinum
-    '00b4fc',//Diamond
-    'ff0062',//Ruby
+    "464646",
+    // "2d2d2d",//Unrated
+    "ad5600",//Bronze
+    "435f7a",//Silver
+    "ec9a00",//Gold
+    "27e2a4",//Platinum
+    "00b4fc",//Diamond
+    "ff0062",//Ruby
+    "CC94F2"//Master
 ];
 
 const emojis = [
@@ -109,6 +111,7 @@ const emojis = [
     "<:ruby_3:1140676086657728683>",
     "<:ruby_2:1140676084044669048>",
     "<:ruby_1:1140676081939124364>",
+    "<:master:1143850696282738698>"
 ];
 
 export function get_icon(level) {
@@ -132,4 +135,5 @@ export function get_color(level) {
     else if (level >= 15 && level <= 20) { return colors[4]; }
     else if (level >= 20 && level <= 25) { return colors[5]; }
     else if (level >= 25 && level <= 30) { return colors[6]; }
+    else if (level == 31) { return colors[7]; }
 }

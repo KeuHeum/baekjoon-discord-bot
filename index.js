@@ -50,7 +50,7 @@ deploySlashCommands(client, commands);
 // Events start
 client.once('ready', async () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    logging(client, 'Bot Started', `**Version**: ${version}`);
+    logging(client, 'Bot Started', `**Version**: ${version}\n**Server**: ${client.guilds.cache.size}`);
 
     //activity loop
     let indexNum = 0;
