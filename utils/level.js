@@ -112,6 +112,7 @@ const emojis = [
 ];
 
 export function get_icon(level) {
+    // return `https://static.solved.ac/tier_small/${level}.svg`;
     return `https://user-images.githubusercontent.com/97784561/${icons[level]}.png`;
 }
 
