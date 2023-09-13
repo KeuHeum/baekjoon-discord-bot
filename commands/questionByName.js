@@ -15,7 +15,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
 	await interaction.deferReply();
 
-	const url = 'https://solved.ac/api/v3/search/problem?query='+encodeURI(interaction.options.get('검색어')['value']);
+	const url = 'https://solved.ac/search?query='+encodeURI(interaction.options.get('검색어')['value']);
 	const response = await fetch(url);
 	const data = await response.json();
 

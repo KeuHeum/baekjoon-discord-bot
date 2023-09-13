@@ -19,7 +19,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
 	await interaction.deferReply();
 
-	const response = await fetch('https://solved.ac/api/v3/problem/show?problemId='+interaction.options.get('id')['value']);
+	const response = await fetch('https://www.acmicpc.net/problem/'+interaction.options.get('id')['value']);
 
 	if (response.status == 400) {
 		const searchEmbed = new EmbedBuilder()
