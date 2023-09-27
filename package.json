@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "author": "KeuHeum",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "discord.js": "^14.12.1",
     "dotenv": "^16.3.1",
