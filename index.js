@@ -66,7 +66,7 @@ client.once('ready', async () => {
 
 client.on('guildCreate', async (guild) => {
     let member = guild.members.cache.get(client.user.id);
-    const keywords = ['공지', 'noti', '채팅', '일반', '광장', 'chat', 'general', '봇', 'bot'];
+    const keywords = ['공지', 'noti', '백준', 'baekjoon', '채팅', '일반', '광장', 'chat', 'general', '봇', 'bot'];
 
     let noticeChannel;
     forChannels: for (let channel of guild.channels.cache) {
@@ -123,6 +123,7 @@ client.on('interactionCreate', async interaction => {
         } else {
             await interaction.reply({ content: '명령어를 실행하는 동안 오류가 발생했어요', ephemeral: true });
         }
+        logging(client, 'Error occur');
     }
 });
 
